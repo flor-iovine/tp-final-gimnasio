@@ -19,7 +19,14 @@ public abstract class Persona {
         this.contrasenia = contrasenia;
     }
 
-    public boolean login(String user, String contra){
+    public Persona(String nombre, String dni, String email, String telefono) {
+        this.nombre = nombre;
+        this.dni = dni;
+        this.email = email;
+        this.telefono = telefono;
+    }
+
+    public boolean login(String user, String contra) {
         return this.contrasenia.equals(contra) && this.usuario.equals(user);
     }
 
@@ -77,5 +84,18 @@ public abstract class Persona {
 
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
+    }
+
+    @Override
+    public String toString() {
+        return "Persona{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", dni='" + dni + '\'' +
+                ", email='" + email + '\'' +
+                ", telefono='" + telefono + '\'' +
+                ", usuario='" + usuario + '\'' +
+                ", contrasenia='" + contrasenia + '\'' +
+                '}';
     }
 }
