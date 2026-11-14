@@ -1,5 +1,7 @@
 package modelo;
 
+import excepciones.MembresiaInactivaException;
+
 import java.time.LocalDate;
 
 public class PaseTresVeces extends Membresia{
@@ -8,8 +10,8 @@ public class PaseTresVeces extends Membresia{
 
     public PaseTresVeces(int id, double precioBase, LocalDate fechaInicio, LocalDate fechaVencimiento, int asistenciasUsadas, int asistenciasSemanalesTotales) {
         super(id, precioBase, fechaInicio, fechaVencimiento);
-        this.asistenciasUsadas = asistenciasUsadas;
-        this.asistenciasSemanalesTotales = asistenciasSemanalesTotales;
+        this.asistenciasUsadas = 0;
+        this.asistenciasSemanalesTotales = 3;
     }
 
     public int getAsistenciasSemanalesTotales() {
@@ -39,12 +41,20 @@ public class PaseTresVeces extends Membresia{
 
     @Override
     public double calcularCosto() {
-        return 0;
+        return this.precioBase;
     }
 
     @Override
-    public boolean permitirAcceso() {
-        return false;
+    public boolean permitirAcceso() throws MembresiaInactivaException {
+        if (!estaVigente()) {
+            throw new MembresiaInactivaException("Acceso denegado: La membresía está vencida.");
+        }
+        if (asistenciasUsadas < asistenciasSemanalesTotales) {
+            asistenciasUsadas++;
+            return true;
+        }
+
+        throw new MembresiaInactivaException("Acceso denegado: Ya alcanzó el límite de asistencias semanales.");
     }
     
 }

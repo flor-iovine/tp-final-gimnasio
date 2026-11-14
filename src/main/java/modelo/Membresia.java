@@ -1,5 +1,7 @@
 package modelo;
 
+import excepciones.MembresiaInactivaException;
+
 import java.time.LocalDate;
 
 public abstract class Membresia {
@@ -57,9 +59,15 @@ public abstract class Membresia {
                 '}';
     }
 
+    public boolean estaVigente() {
+        LocalDate hoy = LocalDate.now();
+        return (hoy.isEqual(fechaInicio) || hoy.isAfter(fechaInicio)) &&
+                (hoy.isEqual(fechaVencimiento) || hoy.isBefore(fechaVencimiento));
+    }
+
     // METODOS ABSTRACTOS
 
     public abstract double calcularCosto() ;
 
-    public abstract boolean permitirAcceso() ;
+    public abstract boolean permitirAcceso() throws MembresiaInactivaException;
 }
