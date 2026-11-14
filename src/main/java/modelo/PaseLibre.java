@@ -19,7 +19,7 @@ public class PaseLibre extends Membresia implements Promocionable {
 
     @Override
     public boolean permitirAcceso() throws MembresiaInactivaException {
-        if (!estaVigente()) {
+        if (!estaActiva()) {
             throw new MembresiaInactivaException("Acceso denegado: La membresía está vencida.");
         }
         return true;

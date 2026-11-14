@@ -59,7 +59,7 @@ public abstract class Membresia {
                 '}';
     }
 
-    public boolean estaVigente() {
+    public boolean estaActiva() {
         LocalDate hoy = LocalDate.now();
         return (hoy.isEqual(fechaInicio) || hoy.isAfter(fechaInicio)) &&
                 (hoy.isEqual(fechaVencimiento) || hoy.isBefore(fechaVencimiento));

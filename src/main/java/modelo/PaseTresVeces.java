@@ -5,21 +5,16 @@ import excepciones.MembresiaInactivaException;
 import java.time.LocalDate;
 
 public class PaseTresVeces extends Membresia{
-    private int asistenciasSemanalesTotales ;
+    private static final int asistenciasSemanalesTotales = 3;
     private int asistenciasUsadas;
 
     public PaseTresVeces(int id, double precioBase, LocalDate fechaInicio, LocalDate fechaVencimiento, int asistenciasUsadas, int asistenciasSemanalesTotales) {
         super(id, precioBase, fechaInicio, fechaVencimiento);
         this.asistenciasUsadas = 0;
-        this.asistenciasSemanalesTotales = 3;
     }
 
     public int getAsistenciasSemanalesTotales() {
         return asistenciasSemanalesTotales;
-    }
-
-    public void setAsistenciasSemanalesTotales(int asistenciasSemanalesTotales) {
-        this.asistenciasSemanalesTotales = asistenciasSemanalesTotales;
     }
 
     public int getAsistenciasUsadas() {
@@ -46,7 +41,7 @@ public class PaseTresVeces extends Membresia{
 
     @Override
     public boolean permitirAcceso() throws MembresiaInactivaException {
-        if (!estaVigente()) {
+        if (!estaActiva()) {
             throw new MembresiaInactivaException("Acceso denegado: La membresía está vencida.");
         }
         if (asistenciasUsadas < asistenciasSemanalesTotales) {
