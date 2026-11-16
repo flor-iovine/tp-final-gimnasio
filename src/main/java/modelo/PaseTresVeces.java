@@ -5,31 +5,23 @@ import excepciones.MembresiaInactivaException;
 import java.time.LocalDate;
 
 public class PaseTresVeces extends Membresia{
-    private static final int asistenciasSemanalesTotales = 3;
+    private static final int LIMITE_SEMANAL = 3;
     private int asistenciasUsadas;
 
-    public PaseTresVeces(int id, double precioBase, LocalDate fechaInicio, LocalDate fechaVencimiento, int asistenciasUsadas, int asistenciasSemanalesTotales) {
-        super(id, precioBase, fechaInicio, fechaVencimiento);
+    public PaseTresVeces( double precioBase, LocalDate fechaInicio, LocalDate fechaVencimiento) {
+        super(precioBase, fechaInicio, fechaVencimiento);
         this.asistenciasUsadas = 0;
-    }
-
-    public int getAsistenciasSemanalesTotales() {
-        return asistenciasSemanalesTotales;
     }
 
     public int getAsistenciasUsadas() {
         return asistenciasUsadas;
     }
 
-    public void setAsistenciasUsadas(int asistenciasUsadas) {
-        this.asistenciasUsadas = asistenciasUsadas;
-    }
-
 
     @Override
     public String toString() {
         return "PaseTresVeces{" +
-                "asistenciasSemanalesTotales=" + asistenciasSemanalesTotales +
+                "asistenciasSemanalesTotales=" + LIMITE_SEMANAL +
                 ", asistenciasUsadas=" + asistenciasUsadas +
                 "} " + super.toString();
     }
@@ -40,16 +32,16 @@ public class PaseTresVeces extends Membresia{
     }
 
     @Override
-    public boolean permitirAcceso() throws MembresiaInactivaException {
-        if (!estaActiva()) {
-            throw new MembresiaInactivaException("Acceso denegado: La membresía está vencida.");
-        }
-        if (asistenciasUsadas < asistenciasSemanalesTotales) {
-            asistenciasUsadas++;
-            return true;
-        }
+    public boolean estaActivo() {
+        return super.estaActivo() && this.asistenciasUsadas < LIMITE_SEMANAL;
+    }
 
-        throw new MembresiaInactivaException("Acceso denegado: Ya alcanzó el límite de asistencias semanales.");
+
+    public void registrarAsistencia() throws MembresiaInactivaException {
+        if (!estaActivo()) {
+            throw new MembresiaInactivaException("Pase vencido o límite semanal de 3 asistencias alcanzado.");
+        }
+        this.asistenciasUsadas++;
     }
     
 }

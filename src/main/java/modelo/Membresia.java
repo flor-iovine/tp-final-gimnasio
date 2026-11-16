@@ -1,17 +1,19 @@
 package modelo;
 
-import excepciones.MembresiaInactivaException;
+import interfaces.Habilitable;
+import interfaces.Promocionable;
 
 import java.time.LocalDate;
 
-public abstract class Membresia {
-    protected int id;
+public abstract class Membresia implements Promocionable, Habilitable {
+    private static int contadorId = 1;
+    private int id;
     protected double precioBase;
-    protected LocalDate fechaInicio;
-    protected LocalDate fechaVencimiento;
+    private LocalDate fechaInicio;
+    private LocalDate fechaVencimiento;
 
-    public Membresia(int id, double precioBase, LocalDate fechaInicio, LocalDate fechaVencimiento) {
-        this.id = id;
+    public Membresia(double precioBase, LocalDate fechaInicio, LocalDate fechaVencimiento) {
+        this.id = contadorId ++;
         this.precioBase = precioBase;
         this.fechaInicio = fechaInicio;
         this.fechaVencimiento = fechaVencimiento;
@@ -21,32 +23,16 @@ public abstract class Membresia {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public double getPrecioBase() {
         return precioBase;
-    }
-
-    public void setPrecioBase(double precioBase) {
-        this.precioBase = precioBase;
     }
 
     public LocalDate getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(LocalDate fechaInicio) {
-        this.fechaInicio = fechaInicio;
-    }
-
     public LocalDate getFechaVencimiento() {
         return fechaVencimiento;
-    }
-
-    public void setFechaVencimiento(LocalDate fechaVencimiento) {
-        this.fechaVencimiento = fechaVencimiento;
     }
 
     @Override
@@ -59,15 +45,20 @@ public abstract class Membresia {
                 '}';
     }
 
-    public boolean estaActiva() {
+    @Override
+    public boolean estaActivo() {
         LocalDate hoy = LocalDate.now();
-        return (hoy.isEqual(fechaInicio) || hoy.isAfter(fechaInicio)) &&
-                (hoy.isEqual(fechaVencimiento) || hoy.isBefore(fechaVencimiento));
+        return !hoy.isBefore(fechaInicio) && !hoy.isAfter(fechaVencimiento);
     }
 
-    // METODOS ABSTRACTOS
+
+    @Override
+    public void aplicarDescuento(double porcentaje) {
+        if (porcentaje > 0 && porcentaje <= 100) {
+            this.precioBase -= this.precioBase * (porcentaje / 100.0);
+        }
+    }
 
     public abstract double calcularCosto() ;
 
-    public abstract boolean permitirAcceso() throws MembresiaInactivaException;
 }

@@ -1,32 +1,26 @@
 package modelo;
 
-import excepciones.MembresiaInactivaException;
-import interfaces.Promocionable;
 
 import java.time.LocalDate;
 
-public class PaseLibre extends Membresia implements Promocionable {
+public class PaseLibre extends Membresia{
+    private static final double DESCUENTO_PASE_LIBRE = 0.15;
 
 
-    public PaseLibre(int id, double precioBase, LocalDate fechaInicio, LocalDate fechaVencimiento) {
-        super(id, precioBase, fechaInicio, fechaVencimiento);
+    public PaseLibre(double precioBase, LocalDate fechaInicio, LocalDate fechaVencimiento) {
+        super(precioBase, fechaInicio, fechaVencimiento);
+    }
+
+    @Override
+    public String toString() {
+        return "PaseLibre{" +
+                "precioBase=" + precioBase +
+                "} " + super.toString();
     }
 
     @Override
     public double calcularCosto() {
-        return aplicarDescuento(this.precioBase);
+        return this.precioBase * (1.0 - DESCUENTO_PASE_LIBRE);
     }
 
-    @Override
-    public boolean permitirAcceso() throws MembresiaInactivaException {
-        if (!estaActiva()) {
-            throw new MembresiaInactivaException("Acceso denegado: La membresía está vencida.");
-        }
-        return true;
-    }
-
-    @Override
-    public double aplicarDescuento(double precioBase) {
-        return precioBase * 0.90; //10 por ciento de descuento
-    }
 }
