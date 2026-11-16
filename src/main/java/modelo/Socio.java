@@ -1,40 +1,75 @@
 package modelo;
 
-public class Socio extends Persona {
-    private int numeroSocio;
-    private boolean estadoCuota;
-    private Membresia membresiaActiva;
+import interfaces.Habilitable;
 
-    public Socio(int id, String nombre, String dni, String email, String telefono, String usuario, String contrasenia, int numeroSocio) {
-        super(id, nombre, dni, email, telefono, usuario, contrasenia);
-        this.numeroSocio = numeroSocio;
-        this.estadoCuota = false;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Socio extends Persona implements Habilitable {
+    private static int contadorSocio = 1;
+    private int numeroSocio;
+    private Membresia paseSala;
+    private List<SesionGuiada> sesionesInscriptas;
+    private Rutina rutinaPersonal;
+
+
+    public Socio(String nombre, String dni, String email, String telefono) {
+        super(nombre, dni, email, telefono);
+        this.numeroSocio = contadorSocio++;
+        this.sesionesInscriptas = new ArrayList<>();
     }
 
-    public Socio(String nombre, String dni, String email, String telefono, int numeroSocio, boolean estadoCuota, Membresia membresiaActiva) {
-        super(nombre, dni, email, telefono);
-        this.numeroSocio = numeroSocio;
-        this.estadoCuota = estadoCuota;
-        this.membresiaActiva = membresiaActiva;
+    public boolean tienePaseSalaActivo(){
+        return this.paseSala != null && this.paseSala.estaActivo();
+    }
+
+    @Override
+    public boolean estaActivo() {
+        if (tienePaseSalaActivo()) {
+            return true;
+        }
+        for (SesionGuiada s : this.sesionesInscriptas) {
+            if (s.estaActivo()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void agregarSesion(SesionGuiada sesion) {
+        if (!this.sesionesInscriptas.contains(sesion)) {
+            this.sesionesInscriptas.add(sesion);
+        }
+    }
+
+    public void removerSesion(SesionGuiada sesion) {
+        this.sesionesInscriptas.remove(sesion);
     }
 
     public int getNumeroSocio() {
         return numeroSocio;
     }
 
-    public boolean isEstadoCuota() {
-        return estadoCuota;
+    public Membresia getPaseSala() {
+        return paseSala;
     }
 
-    public void setEstadoCuota(boolean estadoCuota) {
-        this.estadoCuota = estadoCuota;
+    public void setPaseSala(Membresia paseSala) {
+        this.paseSala = paseSala;
+        if (paseSala == null) {
+            this.rutinaPersonal = null;
+        }
     }
 
-    public Membresia getMembresiaActiva() {
-        return membresiaActiva;
+    public List<SesionGuiada> getSesionesInscriptas() {
+        return sesionesInscriptas;
     }
 
-    public void setMembresiaActiva(Membresia membresiaActiva) {
-        this.membresiaActiva = membresiaActiva;
+    public Rutina getRutinaPersonal() {
+        return rutinaPersonal;
+    }
+
+    public void setRutinaPersonal(Rutina rutinaPersonal) {
+        this.rutinaPersonal = rutinaPersonal;
     }
 }
