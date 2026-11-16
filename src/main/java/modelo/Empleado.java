@@ -1,18 +1,32 @@
 package modelo;
 
 public abstract class Empleado extends Persona {
-    private String legajo;
+    private String usuario;
+    private String contrasenia;
 
-    public Empleado(int id, String nombre, String dni, String email, String telefono, String usuario, String contrasenia, String legajo) {
-        super(id, nombre, dni, email, telefono, usuario, contrasenia);
-        this.legajo = legajo;
+    public Empleado(String nombre, String dni, String email, String telefono, String usuario, String contrasenia) {
+        super(nombre, dni, email, telefono);
+        this.usuario = usuario;
+        this.contrasenia = contrasenia;
     }
 
-    public String getLegajo() {
-        return legajo;
+    public boolean login(String user, String contra) {
+        return this.usuario.equalsIgnoreCase(user) && this.contrasenia.equals(contra);
     }
 
-    public void setLegajo(String legajo) {
-        this.legajo = legajo;
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getContrasenia() {
+        return contrasenia;
+    }
+
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
     }
 }

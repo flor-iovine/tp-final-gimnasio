@@ -1,33 +1,19 @@
 package modelo;
 
 public abstract class Persona {
+    private static int contadorId = 1;
     private int id;
     private String nombre;
     private String dni;
     private String email;
     private String telefono;
-    private String usuario;
-    private String contrasenia;
-
-    public Persona(int id, String nombre, String dni, String email, String telefono, String usuario, String contrasenia) {
-        this.id = id;
-        this.nombre = nombre;
-        this.dni = dni;
-        this.email = email;
-        this.telefono = telefono;
-        this.usuario = usuario;
-        this.contrasenia = contrasenia;
-    }
 
     public Persona(String nombre, String dni, String email, String telefono) {
+        this.id = contadorId++;
         this.nombre = nombre;
         this.dni = dni;
         this.email = email;
         this.telefono = telefono;
-    }
-
-    public boolean login(String user, String contra) {
-        return this.contrasenia.equals(contra) && this.usuario.equals(user);
     }
 
     public int getId() {
@@ -68,34 +54,5 @@ public abstract class Persona {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
-    }
-
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getContrasenia() {
-        return contrasenia;
-    }
-
-    public void setContrasenia(String contrasenia) {
-        this.contrasenia = contrasenia;
-    }
-
-    @Override
-    public String toString() {
-        return "Persona{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", dni='" + dni + '\'' +
-                ", email='" + email + '\'' +
-                ", telefono='" + telefono + '\'' +
-                ", usuario='" + usuario + '\'' +
-                ", contrasenia='" + contrasenia + '\'' +
-                '}';
     }
 }
