@@ -1,6 +1,10 @@
+
 package enums;
 
 public enum TipoActividadGrupal {
     PILATES,
-    CROSSFIT
+    CROSSFIT,
+    YOGA;
+
+    private TipoActividadGrupal() {}
 }
