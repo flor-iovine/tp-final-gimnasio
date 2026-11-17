@@ -1,18 +1,26 @@
 package gestor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class GestorGenerico<T> {
+    protected List<T> elementos;
 
-    List<T> elementos;
+    public GestorGenerico() {
+        this.elementos = new ArrayList<>();
+    }
 
-    abstract void agregar(T elemento);
+    public void agregar(T elemento) {
+        this.elementos.add(elemento);
+    }
 
-    abstract void eliminar(T elemento);
+    public void eliminar(T elemento) {
+        this.elementos.remove(elemento);
+    }
 
-    abstract List<T> obtenerTodos();
+    public List<T> obtenerTodos() {
+        return this.elementos;
+    }
 
-    abstract T buscarPorId(int id);
-
+    public abstract T buscarPorId(int id);
 }
-
