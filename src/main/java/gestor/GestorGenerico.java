@@ -23,4 +23,6 @@ public abstract class GestorGenerico<T> {
     }
 
     public abstract T buscarPorId(int id);
+
+    public abstract void actualizar(T elemento);
 }

@@ -19,6 +19,7 @@ public class GestorMembresias extends GestorGenerico<Membresia> {
         super.agregar(m);
     }
 
+    @Override
     public void actualizar(Membresia m) {
         membresiaDAO.actualizar(m);
     }
@@ -48,4 +49,10 @@ public class GestorMembresias extends GestorGenerico<Membresia> {
         }
         return vencidas;
     }
+
+    public void agregarSoloEnMemoria(Membresia m) {
+        super.agregar(m);
+    }
+
+
 }

@@ -35,7 +35,10 @@ public class Main {
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
+        gestorMembresias.cargarDesdeDB(gestorPersonas.obtenerSocios());
+        gestorSesiones.cargarDesdeDB(gestorPersonas.obtenerEntrenadores());
         cargarDatosDePrueba();
+
         boolean sistemaActivo = true;
 
         while(sistemaActivo) {
@@ -300,7 +303,8 @@ public class Main {
                 nuevoPase = new PaseTresVeces(precio, LocalDate.now(), LocalDate.now().plusMonths(1));
             }
             socio.setPaseSala(nuevoPase);
-            gestorMembresias.agregar(nuevoPase);
+            gestorMembresias.agregarParaSocio(nuevoPase, socio);
+            gestorPersonas.actualizar(socio);
             System.out.println("[OK] Pase asignado. Costo final: $" + nuevoPase.calcularCosto());
             pausar();
         } else {
@@ -320,6 +324,7 @@ public class Main {
                 String tipoPase = socio.getPaseSala().getClass().getSimpleName();
                 gestorMembresias.eliminar(socio.getPaseSala());
                 socio.setPaseSala(null);
+                gestorPersonas.actualizar(socio);
                 System.out.println("[OK] Se dio de baja el " + tipoPase + " de " + socio.getNombre() + ". Estado actual: " + (socio.estaActivo() ? "ACTIVO (por clases)" : "INACTIVO"));
             }
 
@@ -360,6 +365,7 @@ public class Main {
             System.out.print("Porcentaje de descuento: ");
             double desc = leerDouble();
             elegida.aplicarDescuento(desc);
+            gestorMembresias.actualizar(elegida);
             if(desc > 0 && desc <= 100)
             {
                 System.out.println("[OK] Descuento aplicado. Nuevo costo: $" + elegida.calcularCosto());
@@ -386,6 +392,7 @@ public class Main {
                 System.out.print("Porcentaje de descuento: ");
                 double desc = leerDouble();
                 s.aplicarDescuento(desc);
+                gestorSesiones.actualizar(s);
                 System.out.println("[OK] Nuevo precio de sesión: $" + s.getPrecioBase());
             } else {
                 System.out.println("[!] Sesión no encontrada.");
@@ -635,6 +642,7 @@ public class Main {
             }
             if (socio.getPaseSala() instanceof PaseTresVeces pase3) {
                 pase3.registrarAsistencia();
+                gestorMembresias.actualizar(pase3);
                 System.out.println("[MOLINETE ABIERTO] Asistencia registrada (" + pase3.getAsistenciasUsadas() + "/3 esta semana).");
             } else {
                 System.out.println("[MOLINETE ABIERTO] Acceso habilitado para " + socio.getNombre() + ".");
@@ -779,35 +787,34 @@ public class Main {
     }
 
     private static void cargarDatosDePrueba() {
-        Administrador admin = new Administrador("Carlos Admin", "111", "admin@gym.com", "223111111", "admin", "1234");
-        Entrenador ent = new Entrenador("Laura Coach", "222", "laura@gym.com", "223222222", "laura", "1234", EspecialidadEntrenador.CROSSFIT);
+
+        Entrenador ent = new Entrenador("Coach VENCIDO", "222", "laura@gym.com", "223222222", "laura", "1234", EspecialidadEntrenador.CROSSFIT);
         Socio socioPaseLibre = new Socio("Franco Burcaizea", "333", "franco@mail.com", "223333333");
         Membresia paseLibre = new PaseLibre(20000.0, LocalDate.now(), LocalDate.now().plusMonths(1));
+        paseLibre.setId(901); //ID ALTO PARA QUE NO SE PISEN CON LA BASE DE DATOS
         socioPaseLibre.setPaseSala(paseLibre);
         Socio socioSoloClase = new Socio("Ana Perez", "444", "ana@mail.com", "223444444");
         Socio socioPase3 = new Socio("Juan Gomez", "555", "juan@mail.com", "223555555");
         Membresia pase3 = new PaseTresVeces(20000.0, LocalDate.now(), LocalDate.now().plusMonths(1));
+        pase3.setId(902); //ID ALTO PARA QUE NO SE PISEN CON LA BASE DE DATOS
         socioPase3.setPaseSala(pase3);
         Socio socioSesionVencida = new Socio("Lucas Vencido", "666", "lucas@mail.com", "223666666");
         SesionGuiada sesionVencida = new SesionGuiada(6000.0, TipoActividadGrupal.PILATES, LocalDate.now().minusMonths(2), LocalDate.now().minusMonths(1), DiaSemana.LUNES, LocalTime.of(10, 0), 10, ent);
+        sesionVencida.setIdSesion(902); //ID ALTO PARA QUE NO SE PISEN CON LA BASE DE DATOS
         sesionVencida.getInscriptos().add(socioSesionVencida);
         socioSesionVencida.agregarSesion(sesionVencida);
         SesionGuiada sesionYoga = new SesionGuiada(6000.0, TipoActividadGrupal.YOGA, LocalDate.now(), DiaSemana.MARTES, LocalTime.of(19, 0), 1, ent);
+        sesionYoga.setIdSesion(901); //ID ALTO PARA QUE NO SE PISEN CON LA BASE DE DATOS
 
-        try {
-            gestorPersonas.agregarPersona(admin);
-            gestorPersonas.agregarPersona(ent);
-            gestorPersonas.agregarPersona(socioPaseLibre);
-            gestorPersonas.agregarPersona(socioSoloClase);
-            gestorPersonas.agregarPersona(socioPase3);
-            gestorPersonas.agregarPersona(socioSesionVencida);
-        } catch (RegistroDuplicadoException e) {
-            System.out.println("[ERROR] Error al precargar datos de prueba: " + e.getMessage());
-        }
+        gestorPersonas.agregarSoloEnMemoria(ent);
+        gestorPersonas.agregarSoloEnMemoria(socioPaseLibre);
+        gestorPersonas.agregarSoloEnMemoria(socioSoloClase);
+        gestorPersonas.agregarSoloEnMemoria(socioPase3);
+        gestorPersonas.agregarSoloEnMemoria(socioSesionVencida);
 
-        gestorMembresias.agregar(paseLibre);
-        gestorMembresias.agregar(pase3);
-        gestorSesiones.agregar(sesionYoga);
-        gestorSesiones.agregar(sesionVencida);
+        gestorMembresias.agregarSoloEnMemoria(paseLibre);
+        gestorMembresias.agregarSoloEnMemoria(pase3);
+        gestorSesiones.agregarSoloEnMemoria(sesionYoga);
+        gestorSesiones.agregarSoloEnMemoria(sesionVencida);
     }
 }

@@ -26,6 +26,11 @@ public class GestorPersonas extends GestorGenerico<Persona> {
     }
 
     @Override
+    public void actualizar(Persona persona) {
+        personaDAO.actualizar(persona);
+    }
+
+    @Override
     public void eliminar(Persona elemento) {
         personaDAO.eliminar(elemento.getId());
         super.eliminar(elemento);
@@ -68,5 +73,11 @@ public class GestorPersonas extends GestorGenerico<Persona> {
             }
         }
         return entrenadores;
+    }
+
+    public void agregarSoloEnMemoria(Persona p) {
+        if (buscarPorDni(p.getDni()) == null) {
+            super.agregar(p);
+        }
     }
 }

@@ -20,6 +20,7 @@ public class GestorSesiones extends GestorGenerico<SesionGuiada> {
         super.agregar(s);
     }
 
+    @Override
     public void actualizar(SesionGuiada s) {
         sesionDAO.actualizar(s);
     }
@@ -48,5 +49,9 @@ public class GestorSesiones extends GestorGenerico<SesionGuiada> {
             }
         }
         return disponibles;
+    }
+
+    public void agregarSoloEnMemoria(SesionGuiada s) {
+        super.agregar(s);
     }
 }

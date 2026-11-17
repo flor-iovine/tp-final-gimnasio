@@ -104,7 +104,7 @@ public class PersonaDAO implements DAO<Persona> {
 
         if (persona instanceof Socio socio) {
             ps.setString(7, "SOCIO");
-            ps.setBoolean(9, socio.estaActivo());
+            ps.setBoolean(8, socio.estaActivo());
         } else if (persona instanceof Empleado emp) {
             ps.setString(5, emp.getUsuario());
             ps.setString(6, emp.getContrasenia());
@@ -112,7 +112,7 @@ public class PersonaDAO implements DAO<Persona> {
             if (emp instanceof Entrenador entrenador) {
                 ps.setString(7, "ENTRENADOR");
                 if (entrenador.getEspecialidad() != null) {
-                    ps.setString(10, entrenador.getEspecialidad().name());
+                    ps.setString(9, entrenador.getEspecialidad().name());
                 }
             } else if (emp instanceof Administrador) {
                 ps.setString(7, "ADMINISTRADOR");
