@@ -23,6 +23,10 @@ public abstract class Membresia implements Promocionable, Habilitable {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public double getPrecioBase() {
         return precioBase;
     }

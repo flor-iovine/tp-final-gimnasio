@@ -1,5 +1,6 @@
 package gestor;
 
+import dao.PersonaDAO;
 import excepciones.RegistroDuplicadoException;
 import modelo.Entrenador;
 import modelo.Persona;
@@ -10,11 +11,24 @@ import java.util.List;
 
 public class GestorPersonas extends GestorGenerico<Persona> {
 
+    private final PersonaDAO personaDAO = new PersonaDAO();
+
+    public GestorPersonas() {
+        this.elementos = personaDAO.listarTodos();
+    }
+
     public void agregarPersona(Persona nueva) throws RegistroDuplicadoException {
         if (buscarPorDni(nueva.getDni()) != null) {
             throw new RegistroDuplicadoException("Ya existe una persona registrada con el DNI " + nueva.getDni() + ".");
         }
+        personaDAO.insertar(nueva);
         super.agregar(nueva);
+    }
+
+    @Override
+    public void eliminar(Persona elemento) {
+        personaDAO.eliminar(elemento.getId());
+        super.eliminar(elemento);
     }
 
     @Override

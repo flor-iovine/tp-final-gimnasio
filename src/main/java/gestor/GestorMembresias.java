@@ -1,10 +1,33 @@
 package gestor;
 
+import dao.MembresiaDAO;
+import modelo.Socio;
 import modelo.Membresia;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GestorMembresias extends GestorGenerico<Membresia> {
+
+    private final MembresiaDAO membresiaDAO = new MembresiaDAO();
+
+    public void cargarDesdeDB(List<Socio> socios) {
+        this.elementos = membresiaDAO.listarYAsociarSocios(socios);
+    }
+
+    public void agregarParaSocio(Membresia m, Socio socio) {
+        membresiaDAO.insertarParaSocio(m, socio.getId());
+        super.agregar(m);
+    }
+
+    public void actualizar(Membresia m) {
+        membresiaDAO.actualizar(m);
+    }
+
+    @Override
+    public void eliminar(Membresia elemento) {
+        membresiaDAO.eliminar(elemento.getId());
+        super.eliminar(elemento);
+    }
 
     @Override
     public Membresia buscarPorId(int id) {

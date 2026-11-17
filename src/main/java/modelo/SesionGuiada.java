@@ -95,6 +95,10 @@ public class SesionGuiada implements Promocionable, Habilitable {
         return idSesion;
     }
 
+    public void setIdSesion(int idSesion) {
+        this.idSesion = idSesion;
+    }
+
     public double getPrecioBase() {
         return precioBase;
     }

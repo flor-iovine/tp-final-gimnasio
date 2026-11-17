@@ -1,10 +1,34 @@
 package gestor;
 
+import dao.SesionGuiadaDAO;
+import modelo.Entrenador;
 import modelo.SesionGuiada;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GestorSesiones extends GestorGenerico<SesionGuiada> {
+
+    private final SesionGuiadaDAO sesionDAO = new SesionGuiadaDAO();
+
+    public void cargarDesdeDB(List<Entrenador> entrenadores) {
+        this.elementos = sesionDAO.listarConEntrenadores(entrenadores);
+    }
+
+    @Override
+    public void agregar(SesionGuiada s) {
+        sesionDAO.insertar(s);
+        super.agregar(s);
+    }
+
+    public void actualizar(SesionGuiada s) {
+        sesionDAO.actualizar(s);
+    }
+
+    @Override
+    public void eliminar(SesionGuiada s) {
+        sesionDAO.eliminar(s.getIdSesion());
+        super.eliminar(s);
+    }
 
     @Override
     public SesionGuiada buscarPorId(int id) {

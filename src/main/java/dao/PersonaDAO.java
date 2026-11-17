@@ -15,10 +15,10 @@ import java.util.List;
 
 public class PersonaDAO implements DAO<Persona> {
 
-    private static final String SQL_INSERTAR = "INSERT INTO personas (nombre, dni, email, telefono, usuario, contrasenia, rol, numero_socio, estado_cuota, especialidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String SQL_INSERTAR = "INSERT INTO personas (nombre, dni, email, telefono, usuario, contrasenia, rol,estado_cuota, especialidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String SQL_LISTAR = "SELECT * FROM personas ORDER BY id";
     private static final String SQL_BUSCAR = "SELECT * FROM personas WHERE dni = ?";
-    private static final String SQL_ACTUALIZAR = "UPDATE personas SET nombre = ?, dni = ?, email = ?, telefono = ?, usuario = ?, contrasenia = ?, rol = ?, numero_socio = ?, estado_cuota = ?, especialidad = ? WHERE id = ?";
+    private static final String SQL_ACTUALIZAR = "UPDATE personas SET nombre = ?, dni = ?, email = ?, telefono = ?, usuario = ?, contrasenia = ?, rol = ?,estado_cuota = ?, especialidad = ? WHERE id = ?";
     private static final String SQL_ELIMINAR = "DELETE FROM personas WHERE id = ?";
 
     @Override
@@ -28,11 +28,11 @@ public class PersonaDAO implements DAO<Persona> {
             cargarParametros(ps, persona);
             ps.executeUpdate();
 
-            try (ResultSet claves = ps.getGeneratedKeys()) {
-                if (!claves.next()) {
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (!rs.next()) {
                     throw new SQLException("MySQL no devolvió el ID generado");
                 }
-                persona.setId(claves.getInt(1));
+                persona.setId(rs.getInt(1));
             }
         } catch (SQLException e) {
             throw new IllegalStateException("Error al insertar la persona con DNI " + persona.getDni(), e);
@@ -74,7 +74,7 @@ public class PersonaDAO implements DAO<Persona> {
         try (Connection con = ConexionDB.getConexion();
              PreparedStatement ps = con.prepareStatement(SQL_ACTUALIZAR)) {
             cargarParametros(ps, persona);
-            ps.setInt(11, persona.getId());
+            ps.setInt(10, persona.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new IllegalStateException("Error al actualizar la persona con ID " + persona.getId(), e);
@@ -99,9 +99,8 @@ public class PersonaDAO implements DAO<Persona> {
         ps.setString(4, persona.getTelefono());
         ps.setNull(5, Types.VARCHAR); // usuario
         ps.setNull(6, Types.VARCHAR); // contrasenia
-        ps.setNull(8, Types.INTEGER); // numero_socio
-        ps.setNull(9, Types.BOOLEAN); // estado_cuota
-        ps.setNull(10, Types.VARCHAR); // especialidad
+        ps.setNull(8, Types.BOOLEAN); // estado_cuota
+        ps.setNull(9, Types.VARCHAR); // especialidad
 
         if (persona instanceof Socio socio) {
             ps.setString(7, "SOCIO");
