@@ -1,3 +1,13 @@
+/**
+ * Clase PaseTresVeces que representa un tipo de membresía limitada a un máximo de tres asistencias semanales.
+ * Extiende de Membresia e implementa el control de uso y validación de estado:
+ * - Constructor: Inicializa la membresía con precio, fechas y establece las asistencias usadas en cero.
+ * - toString: Retorna una representación en texto del estado del pase, incluyendo el límite y asistencias usadas.
+ * - calcularCosto: Retorna el precio base de la membresía.
+ * - estaActivo: Evalúa si el pase está activo verificando la vigencia general y que no se haya superado el límite semanal.
+ * - registrarAsistencia: Valida que la membresía esté activa e incrementa el contador de asistencias usadas, o lanza una excepción si no es posible.
+ * - Métodos getter: Permiten consultar la cantidad de asistencias usadas.
+ */
 package modelo;
 
 import excepciones.MembresiaInactivaException;

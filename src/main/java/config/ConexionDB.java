@@ -1,3 +1,9 @@
+/**
+ * Clase de utilidad ConexionDB encargada de gestionar y proveer la conexión a la base de datos MySQL mediante JDBC.
+ * Define las credenciales y parámetros de conexión y evita la instanciación de la clase mediante un constructor privado:
+ * - Constructor: Privado para prevenir la creación de instancias (patrón de clase de utilidad).
+ * - getConexion: Metodo estático que establece y retorna una conexión activa a la base de datos gimnasio_db.
+ */
 package config;
 
 import java.sql.Connection;

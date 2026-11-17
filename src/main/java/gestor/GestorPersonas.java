@@ -1,3 +1,13 @@
+/**
+ * Clase GestorPersonas encargada de administrar el conjunto de personas del sistema (socios, entrenadores, etc.).
+ * Extiende de GestorGenerico<Persona> e implementa métodos de validación, búsqueda y filtrado:
+ * - agregarPersona: Valida que no exista previamente una persona con el mismo DNI antes de registrarla.
+ * - buscarPorId: Busca y retorna una persona según su identificador único.
+ * - buscarPorDni: Busca y retorna una persona según su DNI (ignorando mayúsculas/minúsculas).
+ * - obtenerSocios: Filtra y retorna una lista con todos los elementos que corresponden a socios.
+ * - obtenerEntrenadores: Filtra y retorna una lista con todos los elementos que corresponden a entrenadores.
+ */
+
 package gestor;
 
 import dao.PersonaDAO;

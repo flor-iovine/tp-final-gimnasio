@@ -1,3 +1,13 @@
+/**
+ * Clase SesionGuiada que representa una sesión o clase grupal programada, implementando las interfaces Promocionable y Habilitable.
+ * Utiliza un contador estático para autoincrementar un identificador único (idSesion) y gestiona precios, fechas, cupos y reservas de socios:
+ * - Constructores: Asignan un ID único, configuran los parámetros de la sesión (precio, actividad, fechas, día, horario, cupo, entrenador) e inicializan la lista de inscriptos.
+ * - estaActivo: Evalúa si la sesión se encuentra vigente comparando la fecha actual con el rango de inicio y vencimiento.
+ * - cupoDisponible / getLugaresDisponibles: Controlan si la sesión está activa y si quedan cupos libres respecto al máximo permitido.
+ * - agregarReserva / cancelarReserva: Gestionan la inscripción de un socio validando duplicados y cupos, o remueven su reserva.
+ * - aplicarDescuento: Aplica un porcentaje de descuento válido (entre 0 y 100) sobre el precio base.
+ * - Métodos getter y setter: Permiten consultar y modificar el identificador, precio, actividad, fechas, horario, cupo, entrenador y lista de inscriptos.
+ */
 package modelo;
 
 import enums.DiaSemana;

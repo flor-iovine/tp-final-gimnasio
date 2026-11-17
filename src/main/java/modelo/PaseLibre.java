@@ -1,6 +1,13 @@
 package modelo;
 
 
+/**
+ * Clase PaseLibre que representa un tipo de membresía con acceso libre y un descuento aplicado sobre el precio base.
+ * Extiende de Membresia y sobrescribe métodos de cálculo y representación:
+ * - Constructor: Inicializa la membresía con precio, fecha de inicio y fecha de vencimiento.
+ * - toString: Retorna una representación en texto del estado del pase libre, incluyendo su precio base y los datos heredados.
+ * - calcularCosto: Aplica un descuento fijo (15%) sobre el precio base de la membresía.
+ */
 import java.time.LocalDate;
 
 public class PaseLibre extends Membresia{

@@ -1,3 +1,9 @@
+/**
+ * Clase EjercicioRutina que representa la asociación de un ejercicio específico
+ * con su respectiva configuración de entrenamiento (series y repeticiones dentro de una rutina).
+ * - Constructor: Inicializa el ejercicio base, la cantidad de series y las repeticiones configuradas.
+ * - Métodos getter: Permiten consultar el ejercicio, las series y las repeticiones.
+ */
 package modelo;
 
 import enums.Ejercicio;

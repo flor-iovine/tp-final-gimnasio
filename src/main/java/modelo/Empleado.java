@@ -1,3 +1,10 @@
+/**
+ * Clase abstracta Empleado que representa a un empleado del sistema, extendiendo de Persona e incorporando credenciales de acceso.
+ * Gestiona el usuario y la contraseña para la autenticación:
+ * - Constructor: Inicializa los datos heredados de persona y configura el usuario y la contraseña.
+ * - login: Valida las credenciales comparando el usuario (ignorando mayúsculas/minúsculas) y la contraseña ingresada.
+ * - Métodos getter y setter: Permiten consultar y modificar el usuario y la contraseña.
+ */
 package modelo;
 
 public abstract class Empleado extends Persona {

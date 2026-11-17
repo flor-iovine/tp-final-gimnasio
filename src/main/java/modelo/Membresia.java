@@ -1,3 +1,12 @@
+/**
+ * Clase abstracta Membresia que representa una membresía del gimnasio, implementando las interfaces Promocionable y Habilitable.
+ * Utiliza un contador estático para autoincrementar un identificador único (id) y gestiona precios, fechas de vigencia y descuentos:
+ * - Constructor: Asigna un ID único y configura el precio base, la fecha de inicio y la fecha de vencimiento.
+ * - estaActivo: Evalúa si la membresía se encuentra vigente comparando la fecha actual con el rango de inicio y vencimiento.
+ * - aplicarDescuento: Aplica un porcentaje de descuento válido (entre 0 y 100) sobre el precio base.
+ * - calcularCosto: Metodo abstracto que debe ser implementado por las subclases para calcular el costo final de la membresía.
+ * - Métodos getter y setter: Permiten consultar y modificar el identificador, el precio base, las fechas y representar el objeto en texto (toString).
+ */
 package modelo;
 
 import interfaces.Habilitable;

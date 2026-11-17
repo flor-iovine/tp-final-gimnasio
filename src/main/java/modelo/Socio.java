@@ -1,3 +1,13 @@
+/**
+ * Clase Socio que representa a un miembro del gimnasio, extendiendo de Persona e implementando la interfaz Habilitable.
+ * Gestiona su membresía (pase de sala), sus sesiones guiadas inscriptas y su rutina personal:
+ * - Constructor: Inicializa los datos heredados y crea una lista vacía de sesiones inscriptas.
+ * - tienePaseSalaActivo: Valida si el socio posee un pase de sala asignado y si este se encuentra activo.
+ * - estaActivo: Evalúa si el socio está activo, retornando true si tiene un pase de sala activo o si alguna de sus sesiones inscriptas está activa.
+ * - agregarSesion / removerSesion: Añaden o eliminan sesiones guiadas de la lista de inscripciones del socio.
+ * - Métodos getter y setter: Permiten consultar y modificar el pase de sala, las sesiones inscriptas y la rutina personal.
+ */
+
 package modelo;
 
 import interfaces.Habilitable;

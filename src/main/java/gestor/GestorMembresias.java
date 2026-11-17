@@ -1,3 +1,11 @@
+
+/**
+ * Clase GestorMembresias encargada de administrar las membresías dentro del sistema.
+ * Extiende de GestorGenerico<Membresia> e implementa métodos específicos de búsqueda y filtrado:
+ * - buscarPorId: Recorre los elementos para encontrar y retornar una membresía según su identificador único.
+ * - obtenerVencidas: Filtra y retorna una lista con las membresías que ya no se encuentran activas (!m.estaActivo()).
+ */
+
 package gestor;
 
 import dao.MembresiaDAO;

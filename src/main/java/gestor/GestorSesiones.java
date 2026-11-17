@@ -1,3 +1,11 @@
+/**
+ * Clase GestorSesiones encargada de administrar el conjunto de sesiones guiadas.
+ * Extiende de GestorGenerico para reutilizar la lógica de almacenamiento e implementa
+ * métodos específicos de búsqueda y filtrado:
+ * - buscarPorId: Recorre los elementos para encontrar y retornar una sesión según su identificador único.
+ * - obtenerSesionesDisponibles: Filtra y retorna una lista con las sesiones que todavía cuentan con cupo disponible.
+ */
+
 package gestor;
 
 import dao.SesionGuiadaDAO;

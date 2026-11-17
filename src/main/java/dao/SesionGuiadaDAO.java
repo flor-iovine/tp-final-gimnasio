@@ -1,3 +1,12 @@
+/**
+ * Clase SesionGuiadaDAO encargada de gestionar el acceso a datos (DAO) para la entidad SesionGuiada conectándose a MySQL.
+ * Implementa la interfaz DAO<SesionGuiada> y provee operaciones de persistencia mediante JDBC:
+ * - insertar: Almacena una nueva sesión guiada en la base de datos y asigna el ID generado automáticamente.
+ * - listarTodos: Retorna una lista vacía o delega en el metodo de listado con entrenadores.
+ * - listarConEntrenadores: Consulta y mapea todas las sesiones guiadas de la base de datos vinculándolas con su respectivo entrenador según el ID.
+ * - actualizar: Modifica el precio base y el cupo máximo de una sesión existente según su identificador.
+ * - eliminar: Remueve una sesión guiada de la base de datos según su identificador único.
+ */
 package dao;
 
 import config.ConexionDB;

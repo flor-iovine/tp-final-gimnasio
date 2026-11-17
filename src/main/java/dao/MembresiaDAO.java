@@ -1,3 +1,13 @@
+/**
+ - Clase MembresiaDAO encargada de gestionar el acceso a datos (DAO) para la entidad Membresia (y sus subclases PaseLibre y PaseTresVeces) conectándose a MySQL.
+ - Implementa la interfaz DAO<Membresia> y provee operaciones de persistencia mediante JDBC:
+ - - insertar: Almacena una nueva membresía sin socio asociado delegando en el metodo insertarParaSocio.
+ - - insertarParaSocio: Inserta una nueva membresía en la base de datos vinculándola al ID del socio propietario y asigna el ID generado automáticamente.
+ - - listarTodos: Retorna todas las membresías registradas delegando en el metodo listarYAsociarSocios sin realizar vinculación con socios.
+ - - listarYAsociarSocios: Consulta y mapea todas las membresías instanciando la subclase correspondiente y las vincula automáticamente a su respectivo Socio en memoria.
+ - - actualizar: Modifica el precio base, las fechas de vigencia y las asistencias usadas de una membresía existente según su identificador.
+ - - eliminar: Remueve una membresía de la base de datos según su identificador único.
+ */
 package dao;
 
 import config.ConexionDB;
@@ -11,9 +21,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- DAO encargado de persistir las Membresías (PaseLibre y PaseTresVeces) y vincularlas a cada Socio.
- */
 public class MembresiaDAO implements DAO<Membresia> {
 
     private static final String SQL_INSERTAR = "INSERT INTO membresias (tipo, precio_base, fecha_inicio, fecha_vencimiento, asistencias_usadas, socio_id) VALUES (?, ?, ?, ?, ?, ?)";
@@ -26,9 +33,7 @@ public class MembresiaDAO implements DAO<Membresia> {
         insertarParaSocio(m, null);
     }
 
-    /**
-     * Inserta una membresía en la base de datos asociándola al ID del socio propietario.
-     */
+
     public void insertarParaSocio(Membresia m, Integer socioId) {
         try (Connection con = ConexionDB.getConexion();
              PreparedStatement ps = con.prepareStatement(SQL_INSERTAR, Statement.RETURN_GENERATED_KEYS)) {
@@ -62,9 +67,6 @@ public class MembresiaDAO implements DAO<Membresia> {
         return listarYAsociarSocios(new ArrayList<>());
     }
 
-    /**
-     * Lista todas las membresías desde MySQL y las vincula automáticamente a su Socio en memoria.
-     */
     public List<Membresia> listarYAsociarSocios(List<Socio> socios) {
         List<Membresia> lista = new ArrayList<>();
         try (Connection con = ConexionDB.getConexion();

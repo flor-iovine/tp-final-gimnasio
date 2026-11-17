@@ -1,3 +1,10 @@
+/**
+ * Clase abstracta Persona que representa los datos y atributos comunes de cualquier persona dentro del sistema.
+ * Utiliza un contador estático para autoincrementar un identificador único (id) por cada instancia creada:
+ * - Constructor: Asigna un ID único y configura los atributos básicos (nombre, dni, email y teléfono).
+ * - Métodos getter y setter: Permiten consultar y modificar el identificador, nombre, DNI, correo electrónico y teléfono.
+ */
+
 package modelo;
 
 public abstract class Persona {

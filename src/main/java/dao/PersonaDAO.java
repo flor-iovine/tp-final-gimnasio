@@ -1,3 +1,12 @@
+/**
+ - Clase PersonaDAO encargada de gestionar el acceso a datos (DAO) para la entidad Persona (y sus subclases Socio, Entrenador y Administrador) conectándose a MySQL.
+ - Implementa la interfaz DAO<Persona> y provee operaciones de persistencia mediante JDBC:
+ - - insertar: Almacena una nueva persona en la base de datos y asigna el ID generado automáticamente.
+ - - listarTodos: Consulta y mapea todas las personas registradas en la base de datos instanciando la subclase correspondiente según su rol.
+ - - buscarPorDNI: Busca y retorna una persona específica a partir de su número de DNI, o null si no se encuentra.
+ - - actualizar: Modifica los datos de una persona existente (información personal, credenciales, estado de cuota o especialidad) según su identificador.
+ - - eliminar: Remueve una persona de la base de datos según su identificador único.
+ */
 package dao;
 
 import config.ConexionDB;
