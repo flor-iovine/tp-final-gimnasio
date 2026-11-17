@@ -56,6 +56,8 @@ public abstract class Membresia implements Promocionable, Habilitable {
     public void aplicarDescuento(double porcentaje) {
         if (porcentaje > 0 && porcentaje <= 100) {
             this.precioBase -= this.precioBase * (porcentaje / 100.0);
+        } else {
+            System.out.println("Porcentaje inválido. No se aplicará ningún descuento.");
         }
     }
 

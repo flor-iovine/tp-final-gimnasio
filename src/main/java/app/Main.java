@@ -192,11 +192,12 @@ public class Main {
                         String user = scanner.nextLine().trim();
                         System.out.print("Contraseña: ");
                         String pass = scanner.nextLine().trim();
-                        System.out.println("Especialidad (1. MUSCULACION | 2. PILATES | 3. CROSSFIT): ");
+                        System.out.println("Especialidad (1. PILATES | 2. CROSSFIT ): ");
+                        System.out.println("En caso de no contar con una especialidad será MUSCULACIÓN (ingrese cualquier número)");
                         int espOp = leerEntero();
                         EspecialidadEntrenador esp = switch (espOp) {
-                            case 2 -> EspecialidadEntrenador.PILATES;
-                            case 3 -> EspecialidadEntrenador.CROSSFIT;
+                            case 1 -> EspecialidadEntrenador.PILATES;
+                            case 2 -> EspecialidadEntrenador.CROSSFIT;
                             default -> EspecialidadEntrenador.MUSCULACION;
                         };
                         Entrenador nuevoEnt = new Entrenador(nombre, dni, email, tel, user, pass, esp);
@@ -359,7 +360,10 @@ public class Main {
             System.out.print("Porcentaje de descuento: ");
             double desc = leerDouble();
             elegida.aplicarDescuento(desc);
-            System.out.println("[OK] Descuento aplicado. Nuevo costo: $" + elegida.calcularCosto());
+            if(desc > 0 && desc <= 100)
+            {
+                System.out.println("[OK] Descuento aplicado. Nuevo costo: $" + elegida.calcularCosto());
+            }
         } else if (tipo == 2) {
             List<SesionGuiada> sesiones = gestorSesiones.obtenerTodos();
             if (sesiones.isEmpty()) {
