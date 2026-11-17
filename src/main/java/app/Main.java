@@ -777,12 +777,16 @@ public class Main {
 
     private static String leerSoloDigitos() {
         while(true) {
-            String entrada = scanner.nextLine().trim();
-            if (entrada.matches("\\d+")) {
-                return entrada;
-            }
+            String entrada = scanner.nextLine().trim(); //El .Trim es para eliminar espacios vacios en la cadena de texto
+            try{
+                int numero = Integer.parseInt(entrada); //Esto convierte el String a un Integer
 
-            System.out.print("[!] Ingrese solo números (sin letras ni espacios): ");
+                if(numero >= 0){ //Se evalúa que el número sea mayor o igual a 0 para filtrar negativos.
+                    return entrada;
+                }
+            }catch (NumberFormatException e){
+                System.out.print("[!] Ingrese solo números (sin letras ni espacios): "); //Se avisa si encuentra algo que no sea numeros
+            }
         }
     }
 
