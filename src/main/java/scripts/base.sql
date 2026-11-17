@@ -11,7 +11,6 @@ CREATE TABLE personas (
                           usuario VARCHAR(255) UNIQUE,
                           contrasenia VARCHAR(255),
                           rol ENUM('SOCIO', 'ENTRENADOR', 'ADMINISTRADOR') NOT NULL,
-                          numero_socio INT,
                           estado_cuota BOOLEAN,
                           especialidad ENUM('MUSCULACION', 'PILATES', 'CROSSFIT')
 );

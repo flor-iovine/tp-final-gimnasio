@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Socio extends Persona implements Habilitable {
-    private static int contadorSocio = 1;
-    private int numeroSocio;
     private Membresia paseSala;
     private List<SesionGuiada> sesionesInscriptas;
     private Rutina rutinaPersonal;
@@ -15,7 +13,6 @@ public class Socio extends Persona implements Habilitable {
 
     public Socio(String nombre, String dni, String email, String telefono) {
         super(nombre, dni, email, telefono);
-        this.numeroSocio = contadorSocio++;
         this.sesionesInscriptas = new ArrayList<>();
     }
 
@@ -44,10 +41,6 @@ public class Socio extends Persona implements Habilitable {
 
     public void removerSesion(SesionGuiada sesion) {
         this.sesionesInscriptas.remove(sesion);
-    }
-
-    public int getNumeroSocio() {
-        return numeroSocio;
     }
 
     public Membresia getPaseSala() {

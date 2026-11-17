@@ -8,8 +8,6 @@ public interface DAO<T> {
 
     List<T> listarTodos();
 
-    T buscarPorId(int id);
-
     void actualizar(T entidad);
 
     void eliminar(int id);

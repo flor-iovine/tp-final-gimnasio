@@ -17,7 +17,7 @@ public class PersonaDAO implements DAO<Persona> {
 
     private static final String SQL_INSERTAR = "INSERT INTO personas (nombre, dni, email, telefono, usuario, contrasenia, rol, numero_socio, estado_cuota, especialidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String SQL_LISTAR = "SELECT * FROM personas ORDER BY id";
-    private static final String SQL_BUSCAR = "SELECT * FROM personas WHERE id = ?";
+    private static final String SQL_BUSCAR = "SELECT * FROM personas WHERE dni = ?";
     private static final String SQL_ACTUALIZAR = "UPDATE personas SET nombre = ?, dni = ?, email = ?, telefono = ?, usuario = ?, contrasenia = ?, rol = ?, numero_socio = ?, estado_cuota = ?, especialidad = ? WHERE id = ?";
     private static final String SQL_ELIMINAR = "DELETE FROM personas WHERE id = ?";
 
@@ -54,18 +54,17 @@ public class PersonaDAO implements DAO<Persona> {
         return lista;
     }
 
-    @Override
-    public Persona buscarPorId(int id) {
+    public Persona buscarPorDNI(String dni) {
         try (Connection con = ConexionDB.getConexion();
              PreparedStatement ps = con.prepareStatement(SQL_BUSCAR)) {
-            ps.setInt(1, id);
+            ps.setString(1, dni);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return crearPersona(rs);
                 }
             }
         } catch (SQLException e) {
-            throw new IllegalStateException("Error al buscar la persona con ID " + id, e);
+            throw new IllegalStateException("Error al buscar la persona con DNI " + dni, e);
         }
         return null;
     }
@@ -106,7 +105,6 @@ public class PersonaDAO implements DAO<Persona> {
 
         if (persona instanceof Socio socio) {
             ps.setString(7, "SOCIO");
-            ps.setInt(8, socio.getNumeroSocio());
             ps.setBoolean(9, socio.estaActivo());
         } else if (persona instanceof Empleado emp) {
             ps.setString(5, emp.getUsuario());
