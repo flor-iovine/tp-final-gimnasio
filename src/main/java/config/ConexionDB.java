@@ -14,7 +14,7 @@ public class ConexionDB {
 
     private static final String URL = "jdbc:mysql://localhost:3306/gimnasio_db";
     private static final String USUARIO = "root";
-    private static final String CLAVE = "1234";
+    private static final String CLAVE = "Programacion2026";
 
     private ConexionDB() {
     }
