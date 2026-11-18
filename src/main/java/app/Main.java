@@ -179,9 +179,9 @@ public class Main {
                 pausar();
             } else {
                 System.out.print("Nombre completo: ");
-                String nombre = scanner.nextLine().trim();
+                String nombre = leerTextoNoVacio();
                 System.out.print("Email: ");
-                String email = scanner.nextLine().trim();
+                String email = leerEmail();
                 System.out.print("Teléfono (solo números): ");
                 String tel = leerSoloDigitos();
 
@@ -192,9 +192,9 @@ public class Main {
                         System.out.println("[OK] Socio creado (ID: " + nuevoSocio.getId() + ").");
                     } else {
                         System.out.print("Usuario de acceso: ");
-                        String user = scanner.nextLine().trim();
+                        String user = leerTextoNoVacio();
                         System.out.print("Contraseña: ");
-                        String pass = scanner.nextLine().trim();
+                        String pass = leerTextoNoVacio();
                         System.out.println("Especialidad (1. PILATES | 2. CROSSFIT ): ");
                         System.out.println("En caso de no contar con una especialidad será MUSCULACIÓN (ingrese cualquier número)");
                         int espOp = leerEntero();
@@ -291,7 +291,7 @@ public class Main {
             }
 
             System.out.print("Precio base: ");
-            double precio = leerDouble();
+            double precio = leerDoublePositivo();
             if (paseActual != null) {
                 gestorMembresias.eliminar(paseActual);
             }
@@ -347,8 +347,7 @@ public class Main {
             }
 
             System.out.println("\n--- MEMBRESÍAS REGISTRADAS ---");
-
-            for(Membresia m : lista) {
+            for (Membresia m : lista) {
                 String duenio = buscarDuenioMembresia(m);
                 System.out.println("(ID: " + m.getId() + ") " + m.getClass().getSimpleName()
                         + " | Socio: " + duenio + " | Costo actual: $" + m.calcularCosto());
@@ -362,13 +361,14 @@ public class Main {
                 return;
             }
 
-            System.out.print("Porcentaje de descuento: ");
+            System.out.print("Porcentaje de descuento (1 a 100): ");
             double desc = leerDouble();
-            elegida.aplicarDescuento(desc);
-            gestorMembresias.actualizar(elegida);
-            if(desc > 0 && desc <= 100)
-            {
+            if (desc > 0 && desc <= 100) {
+                elegida.aplicarDescuento(desc);
+                gestorMembresias.actualizar(elegida);
                 System.out.println("[OK] Descuento aplicado. Nuevo costo: $" + elegida.calcularCosto());
+            } else {
+                System.out.println("[!] Porcentaje inválido. Debe ser mayor a 0 y hasta 100.");
             }
         } else if (tipo == 2) {
             List<SesionGuiada> sesiones = gestorSesiones.obtenerTodos();
@@ -379,8 +379,7 @@ public class Main {
             }
 
             System.out.println("\n--- SESIONES GUIADAS ---");
-
-            for(SesionGuiada s : sesiones) {
+            for (SesionGuiada s : sesiones) {
                 System.out.println("(ID: " + s.getIdSesion() + ") " + s.getActividad()
                         + " | Día: " + s.getDiaSemana() + " | Horario: " + s.getHorario()
                         + " | Precio: $" + s.getPrecioBase());
@@ -389,14 +388,20 @@ public class Main {
             System.out.print("Ingrese el ID de la sesión: ");
             SesionGuiada s = gestorSesiones.buscarPorId(leerEntero());
             if (s != null) {
-                System.out.print("Porcentaje de descuento: ");
+                System.out.print("Porcentaje de descuento (1 a 100): ");
                 double desc = leerDouble();
-                s.aplicarDescuento(desc);
-                gestorSesiones.actualizar(s);
-                System.out.println("[OK] Nuevo precio de sesión: $" + s.getPrecioBase());
+                if (desc > 0 && desc <= 100) {
+                    s.aplicarDescuento(desc);
+                    gestorSesiones.actualizar(s);
+                    System.out.println("[OK] Nuevo precio de sesión: $" + s.getPrecioBase());
+                } else {
+                    System.out.println("[!] Porcentaje inválido. Debe ser mayor a 0 y hasta 100.");
+                }
             } else {
                 System.out.println("[!] Sesión no encontrada.");
             }
+        } else {
+            System.out.println("[!] Opción inválida.");
         }
 
         pausar();
@@ -464,9 +469,9 @@ public class Main {
 
         LocalTime horario = LocalTime.of(hora, minutos);
         System.out.print("Precio de la clase: ");
-        double precio = leerDouble();
+        double precio = leerDoublePositivo();
         System.out.print("Cupo máximo: ");
-        int cupo = leerEntero();
+        int cupo = leerEnteroPositivo();
         System.out.print("DNI del Entrenador a cargo: ");
         String dniEnt = leerSoloDigitos();
 
@@ -578,10 +583,10 @@ public class Main {
             }
 
             System.out.print("Nombre/Objetivo de la rutina: ");
-            String nombre = scanner.nextLine().trim();
+            String nombre = leerTextoNoVacio();
             Rutina rutina = new Rutina(nombre);
             System.out.print("¿Cuántos ejercicios desea agregar?: ");
-            int cant = leerEntero();
+            int cant = leerEnteroPositivo();
 
             for (int i = 0; i < cant; i++) {
                 System.out.println("Ejercicio #" + (i + 1) + " (1. SENTADILLA | 2. PRESS_BANCA | 3. PESO_MUERTO | 4. PLANCHA | 5. BURPEES): ");
@@ -595,9 +600,9 @@ public class Main {
                 };
 
                 System.out.print("Series: ");
-                int series = leerEntero();
+                int series = leerEnteroPositivo();
                 System.out.print("Repeticiones: ");
-                int reps = leerEntero();
+                int reps = leerEnteroPositivo();
                 rutina.agregarEjercicio(new EjercicioRutina(ej, series, reps));
             }
 
@@ -756,7 +761,7 @@ public class Main {
     }
 
     private static int leerEntero() {
-        while(true) {
+        while (true) {
             try {
                 return Integer.parseInt(scanner.nextLine().trim());
             } catch (NumberFormatException e) {
@@ -765,8 +770,18 @@ public class Main {
         }
     }
 
+    private static int leerEnteroPositivo() {
+        while (true) {
+            int valor = leerEntero();
+            if (valor > 0) {
+                return valor;
+            }
+            System.out.print("[!] El número debe ser mayor a 0: ");
+        }
+    }
+
     private static double leerDouble() {
-        while(true) {
+        while (true) {
             try {
                 return Double.parseDouble(scanner.nextLine().trim());
             } catch (NumberFormatException e) {
@@ -775,18 +790,43 @@ public class Main {
         }
     }
 
-    private static String leerSoloDigitos() {
-        while(true) {
-            String entrada = scanner.nextLine().trim(); //El .Trim es para eliminar espacios vacios en la cadena de texto
-            try{
-                int numero = Integer.parseInt(entrada); //Esto convierte el String a un Integer
-
-                if(numero >= 0){ //Se evalúa que el número sea mayor o igual a 0 para filtrar negativos.
-                    return entrada;
-                }
-            }catch (NumberFormatException e){
-                System.out.print("[!] Ingrese solo números (sin letras ni espacios): "); //Se avisa si encuentra algo que no sea numeros
+    private static double leerDoublePositivo() {
+        while (true) {
+            double valor = leerDouble();
+            if (valor > 0) {
+                return valor;
             }
+            System.out.print("[!] El monto debe ser mayor a 0: ");
+        }
+    }
+
+    private static String leerSoloDigitos() {
+        while (true) {
+            String entrada = scanner.nextLine().trim();
+            if (!entrada.isEmpty() && entrada.matches("\\d+")) {
+                return entrada;
+            }
+            System.out.print("[!] Ingrese solo números positivos (sin letras, signos ni espacios): ");
+        }
+    }
+
+    private static String leerTextoNoVacio() {
+        while (true) {
+            String entrada = scanner.nextLine().trim();
+            if (!entrada.isEmpty()) {
+                return entrada;
+            }
+            System.out.print("[!] Este campo no puede estar vacío: ");
+        }
+    }
+
+    private static String leerEmail() {
+        while (true) {
+            String email = scanner.nextLine().trim();
+            if (!email.isEmpty() && email.contains("@") && email.contains(".")) {
+                return email;
+            }
+            System.out.print("[!] Ingrese un email válido (ej: usuario@mail.com): ");
         }
     }
 
